@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="DS_Hospital_DW">
+  <ConnectionProperties>
+    <Extension>ODBC</Extension>
+    <ConnectString>Dsn=Hospital_DW</ConnectString>
+    <IntegratedSecurity>false</IntegratedSecurity>
+  </ConnectionProperties>
+  <DataSourceID>c9f1a4d2-8e12-4c88-b610-3a210f4c1001</DataSourceID>
+</RptDataSource>

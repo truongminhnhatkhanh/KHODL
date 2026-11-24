@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">Default</Platform>
+    <Name>Hospital_CDW_Reports</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A1B2C3D4-E5F6-4789-ABCD-112233445566}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <TargetServerVersion>SSRS2016</TargetServerVersion>
+    <TargetServerURL>http://localhost/reportserver</TargetServerURL>
+    <TargetReportFolder>Hospital_CDW_Reports</TargetReportFolder>
+    <OverwriteDataSources>True</OverwriteDataSources>
+    <OverwriteDatasets>True</OverwriteDatasets>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
+    <OutputPath>bin\DebugLocal\</OutputPath>
+    <TargetServerVersion>SSRS2016</TargetServerVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <TargetServerVersion>SSRS2016</TargetServerVersion>
+    <TargetServerURL>http://localhost/reportserver</TargetServerURL>
+    <TargetReportFolder>Hospital_CDW_Reports</TargetReportFolder>
+    <OverwriteDataSources>True</OverwriteDataSources>
+    <OverwriteDatasets>True</OverwriteDatasets>
+  </PropertyGroup>
+  <ItemGroup>
+    <DataSources Include="DS_Hospital_DW.rds" />
+  </ItemGroup>
+  <ItemGroup>
+    <DataSets Include="DS_WaitTime.rsd" />
+    <DataSets Include="DS_ClinicalOps.rsd" />
+    <DataSets Include="DS_Finance.rsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Report Include="Rpt_WaitTime_Heatmap.rdl" />
+    <Report Include="Rpt_ClinicalOps_LOS.rdl" />
+    <Report Include="Rpt_Revenue_Insurance.rdl" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DS_Finance">
+    <Query>
+      <DataSourceReference>DS_Hospital_DW</DataSourceReference>
+      <CommandText>SELECT
+    diag.Disease_Category,
+    diag.ICD10_Code,
+    p.Insurance_Tier,
+    COUNT(f.Visit_Key) AS Total_Visits,
+    ROUND(SUM(f.Total_Cost), 2) AS Total_Revenue,
+    ROUND(SUM(f.Insurance_Covered_Amount), 2) AS Total_Insurance_Covered,
+    ROUND(SUM(f.Patient_Paid_Amount), 2) AS Total_Patient_Paid,
+    ROUND(SUM(f.Insurance_Covered_Amount) * 100.0 / NULLIF(SUM(f.Total_Cost), 0), 1) AS Insurance_Coverage_Pct
+FROM Fact_Patient_Visits f
+JOIN Dim_Diagnosis diag ON f.Diagnosis_Key = diag.Diagnosis_Key
+JOIN Dim_Patient p ON f.Patient_Key = p.Patient_Key
+GROUP BY diag.Disease_Category, diag.ICD10_Code, p.Insurance_Tier
+ORDER BY Total_Revenue DESC</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="Disease_Category">
+        <DataField>Disease_Category</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="ICD10_Code">
+        <DataField>ICD10_Code</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Insurance_Tier">
+        <DataField>Insurance_Tier</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Total_Visits">
+        <DataField>Total_Visits</DataField>
+        <rd:TypeName>System.Int64</rd:TypeName>
+      </Field>
+      <Field Name="Total_Revenue">
+        <DataField>Total_Revenue</DataField>
+        <rd:TypeName>System.Decimal</rd:TypeName>
+      </Field>
+      <Field Name="Total_Insurance_Covered">
+        <DataField>Total_Insurance_Covered</DataField>
+        <rd:TypeName>System.Decimal</rd:TypeName>
+      </Field>
+      <Field Name="Total_Patient_Paid">
+        <DataField>Total_Patient_Paid</DataField>
+        <rd:TypeName>System.Decimal</rd:TypeName>
+      </Field>
+      <Field Name="Insurance_Coverage_Pct">
+        <DataField>Insurance_Coverage_Pct</DataField>
+        <rd:TypeName>System.Decimal</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

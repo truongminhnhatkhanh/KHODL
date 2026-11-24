@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSets>
+    <DataSet Name="DS_Finance">
+      <SharedDataSet>
+        <SharedDataSetReference>DS_Finance</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="Disease_Category">
+          <DataField>Disease_Category</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ICD10_Code">
+          <DataField>ICD10_Code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Insurance_Tier">
+          <DataField>Insurance_Tier</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Total_Visits">
+          <DataField>Total_Visits</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="Total_Revenue">
+          <DataField>Total_Revenue</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Total_Insurance_Covered">
+          <DataField>Total_Insurance_Covered</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Total_Patient_Paid">
+          <DataField>Total_Patient_Paid</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Insurance_Coverage_Pct">
+          <DataField>Insurance_Coverage_Pct</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Textbox Name="TitleBox">
+            <CanGrow>true</CanGrow>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>BÁO CÁO 3: CƠ CẤU TÀI CHÍNH VIỆN PHÍ &amp; BẢO HIỂM Y TẾ THEO ICD-10</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>14pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.15in</Top>
+            <Left>0.2in</Left>
+            <Height>0.38in</Height>
+            <Width>9.6in</Width>
+          </Textbox>
+          <Chart Name="ChartRevenueStacked">
+            <ChartCategoryHierarchy>
+              <ChartMembers>
+                <ChartMember>
+                  <Group Name="ChartRev_Disease">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!Disease_Category.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <Label>=Fields!Disease_Category.Value</Label>
+                </ChartMember>
+              </ChartMembers>
+            </ChartCategoryHierarchy>
+            <ChartSeriesHierarchy>
+              <ChartMembers>
+                <ChartMember>
+                  <Label>BHYT chi trả</Label>
+                </ChartMember>
+                <ChartMember>
+                  <Label>Bệnh nhân tự trả</Label>
+                </ChartMember>
+              </ChartMembers>
+            </ChartSeriesHierarchy>
+            <ChartData>
+              <ChartSeriesCollection>
+                <ChartSeries Name="SeriesInsCovered">
+                  <ChartDataPoints>
+                    <ChartDataPoint>
+                      <ChartDataPointValues>
+                        <Y>=Sum(Fields!Total_Insurance_Covered.Value)</Y>
+                      </ChartDataPointValues>
+                    </ChartDataPoint>
+                  </ChartDataPoints>
+                  <Type>Bar</Type>
+                  <Subtype>Stacked</Subtype>
+                  <Style>
+                    <Color>#0284C7</Color>
+                  </Style>
+                  <ChartItemInLegend>
+                    <LegendText>Bảo hiểm chi trả (Insurance Covered)</LegendText>
+                  </ChartItemInLegend>
+                </ChartSeries>
+                <ChartSeries Name="SeriesPatientPaid">
+                  <ChartDataPoints>
+                    <ChartDataPoint>
+                      <ChartDataPointValues>
+                        <Y>=Sum(Fields!Total_Patient_Paid.Value)</Y>
+                      </ChartDataPointValues>
+                    </ChartDataPoint>
+                  </ChartDataPoints>
+                  <Type>Bar</Type>
+                  <Subtype>Stacked</Subtype>
+                  <Style>
+                    <Color>#F59E0B</Color>
+                  </Style>
+                  <ChartItemInLegend>
+                    <LegendText>Bệnh nhân đồng chi trả (Out-of-pocket)</LegendText>
+                  </ChartItemInLegend>
+                </ChartSeries>
+              </ChartSeriesCollection>
+            </ChartData>
+            <ChartAreas>
+              <ChartArea Name="Default">
+                <ChartCategoryAxes>
+                  <ChartAxis Name="Primary">
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption>Nhóm bệnh lý (ICD-10)</Caption>
+                      <Style>
+                        <FontSize>9pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </ChartAxisTitle>
+                  </ChartAxis>
+                </ChartCategoryAxes>
+                <ChartValueAxes>
+                  <ChartAxis Name="Primary">
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                      <Format>#,##0</Format>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption>Tổng chi phí điều trị</Caption>
+                      <Style>
+                        <FontSize>9pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </ChartAxisTitle>
+                  </ChartAxis>
+                </ChartValueAxes>
+              </ChartArea>
+            </ChartAreas>
+            <ChartLegends>
+              <ChartLegend Name="Default">
+                <Position>BottomCenter</Position>
+              </ChartLegend>
+            </ChartLegends>
+            <ChartTitles>
+              <ChartTitle Name="Default">
+                <Caption>Cơ cấu Bảo hiểm chi trả &amp; Tự chi trả theo Nhóm bệnh</Caption>
+                <Style>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </ChartTitle>
+            </ChartTitles>
+            <Palette>BrightPastel</Palette>
+            <DataSetName>DS_Finance</DataSetName>
+            <Top>0.65in</Top>
+            <Left>0.2in</Left>
+            <Height>3.5in</Height>
+            <Width>9.6in</Width>
+          </Chart>
+          <Tablix Name="TablixFinanceTier">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn><Width>2.0in</Width></TablixColumn>
+                <TablixColumn><Width>1.1in</Width></TablixColumn>
+                <TablixColumn><Width>1.8in</Width></TablixColumn>
+                <TablixColumn><Width>1.8in</Width></TablixColumn>
+                <TablixColumn><Width>1.7in</Width></TablixColumn>
+                <TablixColumn><Width>1.2in</Width></TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.32in</Height>
+                  <TablixCells>
+                    <TablixCell><CellContents><Textbox Name="FH1"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Hãng Bảo hiểm</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns></Paragraph></Paragraphs><Style><Border><Style>Solid</Style></Border><BackgroundColor>#EAEAEA</BackgroundColor><PaddingLeft>4pt</PaddingLeft></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FH2"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Lượt khám</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns></Paragraph></Paragraphs><Style><Border><Style>Solid</Style></Border><BackgroundColor>#EAEAEA</BackgroundColor><PaddingLeft>4pt</PaddingLeft></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FH3"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Tổng doanh thu</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns></Paragraph></Paragraphs><Style><Border><Style>Solid</Style></Border><BackgroundColor>#EAEAEA</BackgroundColor><PaddingLeft>4pt</PaddingLeft></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FH4"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Bảo hiểm chi trả</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns></Paragraph></Paragraphs><Style><Border><Style>Solid</Style></Border><BackgroundColor>#EAEAEA</BackgroundColor><PaddingLeft>4pt</PaddingLeft></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FH5"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Bệnh nhân tự trả</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns></Paragraph></Paragraphs><Style><Border><Style>Solid</Style></Border><BackgroundColor>#EAEAEA</BackgroundColor><PaddingLeft>4pt</PaddingLeft></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FH6"><Paragraphs><Paragraph><TextRuns><TextRun><Value>Tỷ lệ BH (%)</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns></Paragraph></Paragraphs><Style><Border><Style>Solid</Style></Border><BackgroundColor>#EAEAEA</BackgroundColor><PaddingLeft>4pt</PaddingLeft></Style></Textbox></CellContents></TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.28in</Height>
+                  <TablixCells>
+                    <TablixCell><CellContents><Textbox Name="FC1"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Insurance_Tier.Value</Value></TextRun></TextRuns></Paragraph></Paragraphs><Style><Border><Style>Solid</Style></Border><PaddingLeft>4pt</PaddingLeft></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FC2"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Sum(Fields!Total_Visits.Value)</Value><Style><Format>#,##0</Format></Style></TextRun></TextRuns></Paragraph></Paragraphs><Style><Border><Style>Solid</Style></Border><PaddingRight>4pt</PaddingRight></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FC3"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Sum(Fields!Total_Revenue.Value)</Value><Style><Format>#,##0.00</Format></Style></TextRun></TextRuns></Paragraph></Paragraphs><Style><Border><Style>Solid</Style></Border><PaddingRight>4pt</PaddingRight></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FC4"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Sum(Fields!Total_Insurance_Covered.Value)</Value><Style><Format>#,##0.00</Format></Style></TextRun></TextRuns></Paragraph></Paragraphs><Style><Border><Style>Solid</Style></Border><PaddingRight>4pt</PaddingRight></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FC5"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Sum(Fields!Total_Patient_Paid.Value)</Value><Style><Format>#,##0.00</Format></Style></TextRun></TextRuns></Paragraph></Paragraphs><Style><Border><Style>Solid</Style></Border><PaddingRight>4pt</PaddingRight></Style></Textbox></CellContents></TablixCell>
+                    <TablixCell><CellContents><Textbox Name="FC6"><Paragraphs><Paragraph><TextRuns><TextRun><Value>=Round(Sum(Fields!Total_Insurance_Covered.Value) * 100.0 / Sum(Fields!Total_Revenue.Value), 1)</Value><Style><Format>0.0"%"</Format></Style></TextRun></TextRuns></Paragraph></Paragraphs><Style><Border><Style>Solid</Style></Border><PaddingRight>4pt</PaddingRight></Style></Textbox></CellContents></TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers><TablixMember /><TablixMember /><TablixMember /><TablixMember /><TablixMember /><TablixMember /></TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember><KeepWithGroup>After</KeepWithGroup></TablixMember>
+                <TablixMember>
+                  <Group Name="Group_InsuranceTier">
+                    <GroupExpressions><GroupExpression>=Fields!Insurance_Tier.Value</GroupExpression></GroupExpressions>
+                  </Group>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>DS_Finance</DataSetName>
+            <Top>4.3in</Top>
+            <Left>0.2in</Left>
+            <Height>0.6in</Height>
+            <Width>9.6in</Width>
+          </Tablix>
+        </ReportItems>
+        <Height>5.2in</Height>
+      </Body>
+      <Width>10.2in</Width>
+      <Page>
+        <PageHeight>8.5in</PageHeight>
+        <PageWidth>11in</PageWidth>
+        <LeftMargin>0.4in</LeftMargin>
+        <RightMargin>0.4in</RightMargin>
+        <TopMargin>0.4in</TopMargin>
+        <BottomMargin>0.4in</BottomMargin>
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+</Report>

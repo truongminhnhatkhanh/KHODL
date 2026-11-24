@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DS_WaitTime">
+    <Query>
+      <DataSourceReference>DS_Hospital_DW</DataSourceReference>
+      <CommandText>SELECT
+    dept.Department_Name,
+    d.Shift,
+    d.Day_Of_Week,
+    COUNT(f.Visit_Key) AS Total_Visits,
+    ROUND(AVG(f.Waiting_Time_Minutes), 1) AS Avg_Wait_Minutes,
+    MAX(f.Waiting_Time_Minutes) AS Max_Wait_Minutes,
+    ROUND(AVG(f.Consultation_Duration), 1) AS Avg_Consult_Minutes
+FROM Fact_Patient_Visits f
+JOIN Dim_Department dept ON f.Department_Key = dept.Department_Key
+JOIN Dim_Date d ON f.Date_Key = d.Date_Key
+GROUP BY dept.Department_Name, d.Shift, d.Day_Of_Week</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="Department_Name">
+        <DataField>Department_Name</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Shift">
+        <DataField>Shift</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Day_Of_Week">
+        <DataField>Day_Of_Week</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Total_Visits">
+        <DataField>Total_Visits</DataField>
+        <rd:TypeName>System.Int64</rd:TypeName>
+      </Field>
+      <Field Name="Avg_Wait_Minutes">
+        <DataField>Avg_Wait_Minutes</DataField>
+        <rd:TypeName>System.Decimal</rd:TypeName>
+      </Field>
+      <Field Name="Max_Wait_Minutes">
+        <DataField>Max_Wait_Minutes</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="Avg_Consult_Minutes">
+        <DataField>Avg_Consult_Minutes</DataField>
+        <rd:TypeName>System.Decimal</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

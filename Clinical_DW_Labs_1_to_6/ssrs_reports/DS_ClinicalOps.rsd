@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DS_ClinicalOps">
+    <Query>
+      <DataSourceReference>DS_Hospital_DW</DataSourceReference>
+      <CommandText>SELECT
+    s.Service_Type,
+    dept.Department_Name,
+    COUNT(f.Visit_Key) AS Total_Visits,
+    SUM(f.Length_Of_Stay_Days) AS Total_Inpatient_Days,
+    ROUND(AVG(NULLIF(f.Length_Of_Stay_Days, 0)), 1) AS Avg_LOS_Inpatient
+FROM Fact_Patient_Visits f
+JOIN Dim_Service s ON f.Service_Key = s.Service_Key
+JOIN Dim_Department dept ON f.Department_Key = dept.Department_Key
+GROUP BY s.Service_Type, dept.Department_Name
+ORDER BY Total_Inpatient_Days DESC</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="Service_Type">
+        <DataField>Service_Type</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Department_Name">
+        <DataField>Department_Name</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Total_Visits">
+        <DataField>Total_Visits</DataField>
+        <rd:TypeName>System.Int64</rd:TypeName>
+      </Field>
+      <Field Name="Total_Inpatient_Days">
+        <DataField>Total_Inpatient_Days</DataField>
+        <rd:TypeName>System.Decimal</rd:TypeName>
+      </Field>
+      <Field Name="Avg_LOS_Inpatient">
+        <DataField>Avg_LOS_Inpatient</DataField>
+        <rd:TypeName>System.Decimal</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSets>
+    <DataSet Name="DS_ClinicalOps">
+      <SharedDataSet>
+        <SharedDataSetReference>DS_ClinicalOps</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="Service_Type">
+          <DataField>Service_Type</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Department_Name">
+          <DataField>Department_Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Total_Visits">
+          <DataField>Total_Visits</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="Total_Inpatient_Days">
+          <DataField>Total_Inpatient_Days</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Avg_LOS_Inpatient">
+          <DataField>Avg_LOS_Inpatient</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Textbox Name="TitleBox">
+            <CanGrow>true</CanGrow>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>BÁO CÁO 2: VẬN HÀNH LÂM SÀNG, THỜI GIAN NẰM VIỆN (LOS) &amp; CƠ CẤU DỊCH VỤ</Value>
+                    <Style>
+                      <FontFamily>Arial</FontFamily>
+                      <FontSize>14pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.15in</Top>
+            <Left>0.2in</Left>
+            <Height>0.38in</Height>
+            <Width>9.6in</Width>
+          </Textbox>
+          <Chart Name="ChartLOS">
+            <ChartCategoryHierarchy>
+              <ChartMembers>
+                <ChartMember>
+                  <Group Name="ChartLOS_Dept">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!Department_Name.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <Label>=Fields!Department_Name.Value</Label>
+                </ChartMember>
+              </ChartMembers>
+            </ChartCategoryHierarchy>
+            <ChartSeriesHierarchy>
+              <ChartMembers>
+                <ChartMember>
+                  <Label>Tổng ngày nằm viện (LOS)</Label>
+                </ChartMember>
+              </ChartMembers>
+            </ChartSeriesHierarchy>
+            <ChartData>
+              <ChartSeriesCollection>
+                <ChartSeries Name="SeriesInpatientDays">
+                  <ChartDataPoints>
+                    <ChartDataPoint>
+                      <ChartDataPointValues>
+                        <Y>=Sum(Fields!Total_Inpatient_Days.Value)</Y>
+                      </ChartDataPointValues>
+                      <ChartDataLabel>
+                        <Style />
+                        <Visible>true</Visible>
+                      </ChartDataLabel>
+                    </ChartDataPoint>
+                  </ChartDataPoints>
+                  <Type>Bar</Type>
+                  <Style>
+                    <Color>#0284C7</Color>
+                  </Style>
+                  <ChartItemInLegend>
+                    <LegendText>Tổng ngày nằm viện</LegendText>
+                  </ChartItemInLegend>
+                </ChartSeries>
+              </ChartSeriesCollection>
+            </ChartData>
+            <ChartAreas>
+              <ChartArea Name="Default">
+                <ChartCategoryAxes>
+                  <ChartAxis Name="Primary">
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption>Chuyên khoa</Caption>
+                      <Style>
+                        <FontSize>9pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </ChartAxisTitle>
+                  </ChartAxis>
+                </ChartCategoryAxes>
+                <ChartValueAxes>
+                  <ChartAxis Name="Primary">
+                    <Style>
+                      <FontSize>9pt</FontSize>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption>Tổng ngày điều trị nội trú (ngày)</Caption>
+                      <Style>
+                        <FontSize>9pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </ChartAxisTitle>
+                  </ChartAxis>
+                </ChartValueAxes>
+              </ChartArea>
+            </ChartAreas>
+            <ChartLegends>
+              <ChartLegend Name="Default">
+                <Position>BottomCenter</Position>
+              </ChartLegend>
+            </ChartLegends>
+            <ChartTitles>
+              <ChartTitle Name="Default">
+                <Caption>Tổng ngày nằm viện theo Chuyên khoa</Caption>
+                <Style>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </ChartTitle>
+            </ChartTitles>
+            <Palette>BrightPastel</Palette>
+            <DataSetName>DS_ClinicalOps</DataSetName>
+            <Top>0.65in</Top>
+            <Left>0.2in</Left>
+            <Height>3.2in</Height>
+            <Width>5.5in</Width>
+          </Chart>
+          <Tablix Name="TablixServiceMix">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>1.3in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.7in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.9in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.0in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.32in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="H1">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Loại dịch vụ</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><Border><Style>Solid</Style></Border><BackgroundColor>#EAEAEA</BackgroundColor><PaddingLeft>4pt</PaddingLeft></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="H2">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Chuyên khoa</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><Border><Style>Solid</Style></Border><BackgroundColor>#EAEAEA</BackgroundColor><PaddingLeft>4pt</PaddingLeft></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="H3">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Lượt khám</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><Border><Style>Solid</Style></Border><BackgroundColor>#EAEAEA</BackgroundColor><PaddingLeft>4pt</PaddingLeft></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="H4">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>Tổng ngày LOS</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><Border><Style>Solid</Style></Border><BackgroundColor>#EAEAEA</BackgroundColor><PaddingLeft>4pt</PaddingLeft></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="H5">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>LOS TB (ngày)</Value><Style><FontWeight>Bold</FontWeight></Style></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><Border><Style>Solid</Style></Border><BackgroundColor>#EAEAEA</BackgroundColor><PaddingLeft>4pt</PaddingLeft></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.26in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="C1">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Service_Type.Value</Value></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><Border><Style>Solid</Style></Border><PaddingLeft>4pt</PaddingLeft></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="C2">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Department_Name.Value</Value></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><Border><Style>Solid</Style></Border><PaddingLeft>4pt</PaddingLeft></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="C3">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Total_Visits.Value</Value></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><Border><Style>Solid</Style></Border><PaddingRight>4pt</PaddingRight></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="C4">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=Fields!Total_Inpatient_Days.Value</Value></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><Border><Style>Solid</Style></Border><PaddingRight>4pt</PaddingRight></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="C5">
+                          <Paragraphs><Paragraph><TextRuns><TextRun><Value>=IIF(IsNothing(Fields!Avg_LOS_Inpatient.Value), 0, Fields!Avg_LOS_Inpatient.Value)</Value></TextRun></TextRuns></Paragraph></Paragraphs>
+                          <Style><Border><Style>Solid</Style></Border><PaddingRight>4pt</PaddingRight></Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember /><TablixMember /><TablixMember /><TablixMember /><TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember><KeepWithGroup>After</KeepWithGroup></TablixMember>
+                <TablixMember><Group Name="Details" /></TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>DS_ClinicalOps</DataSetName>
+            <Top>4.05in</Top>
+            <Left>0.2in</Left>
+            <Height>0.58in</Height>
+            <Width>6.0in</Width>
+          </Tablix>
+        </ReportItems>
+        <Height>5.2in</Height>
+      </Body>
+      <Width>10.2in</Width>
+      <Page>
+        <PageHeight>8.5in</PageHeight>
+        <PageWidth>11in</PageWidth>
+        <LeftMargin>0.4in</LeftMargin>
+        <RightMargin>0.4in</RightMargin>
+        <TopMargin>0.4in</TopMargin>
+        <BottomMargin>0.4in</BottomMargin>
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+</Report>

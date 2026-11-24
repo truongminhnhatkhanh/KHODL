@@ -1,0 +1,26 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F14B399A-7131-4C87-9E4B-BAF12A240A1D}") = "Hospital_CDW_Reports", "Hospital_CDW_Reports.rptproj", "{A1B2C3D4-E5F6-4789-ABCD-112233445566}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		DebugLocal|Default = DebugLocal|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1B2C3D4-E5F6-4789-ABCD-112233445566}.Debug|Default.ActiveCfg = Debug
+		{A1B2C3D4-E5F6-4789-ABCD-112233445566}.Debug|Default.Build.0 = Debug
+		{A1B2C3D4-E5F6-4789-ABCD-112233445566}.Debug|Default.Deploy.0 = Debug
+		{A1B2C3D4-E5F6-4789-ABCD-112233445566}.DebugLocal|Default.ActiveCfg = DebugLocal
+		{A1B2C3D4-E5F6-4789-ABCD-112233445566}.DebugLocal|Default.Build.0 = DebugLocal
+		{A1B2C3D4-E5F6-4789-ABCD-112233445566}.Release|Default.ActiveCfg = Release
+		{A1B2C3D4-E5F6-4789-ABCD-112233445566}.Release|Default.Build.0 = Release
+		{A1B2C3D4-E5F6-4789-ABCD-112233445566}.Release|Default.Deploy.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
